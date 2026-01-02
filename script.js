@@ -1,5 +1,6 @@
-// Configuration
-const blueColor = '#2A00FF';
+// Constants
+const BLUE = '#2A00FF';
+const WHITE = '#FFFFFF';
 
 // Projects data
 const projects = [
@@ -78,64 +79,79 @@ const scrollingWords = [
   'VIDEO GAME LOVER'
 ];
 
-// State
+// State variables
 let scrollDelta = 0;
-let scrollDirection = 1;
-let scrollProgress = 0;
+let scrollDirection = 1; // 1 = down, -1 = up
+let mouseActive = false;
 let showWorkButton = true;
-let isMobile = window.innerWidth < 768;
+let scrollProgress = 0; // 0 to 1 transition progress
 let viewportWidth = window.innerWidth;
 let viewportHeight = window.innerHeight;
+let heroTextRect = null;
+let isAutoScrolling = false;
 
-// Scrolling text animation
+// Animation variables
+let cloverAngle = 0;
+let spinBoost = 0;
+let currentDirection = 1;
+
 let scrollingTextOffset = 0;
 let scrollBoost = 0;
-let currentDirection = 1;
-let directionResetTimeout = null;
+let scrollingTextDirection = 1;
 
-// Clover animation
-let cloverRotation = 0;
-let cloverRotationSpeed = 0.5;
-let mouseActive = false;
-
-// DOM elements
+// Get DOM elements
 const container = document.getElementById('container');
 const clover = document.getElementById('clover');
-const cloverStalk = document.querySelector('.clover-stalk');
-const cloverLeaves = document.querySelector('.clover-leaves');
+const cloverLeaves = document.getElementById('cloverLeaves');
+const headerGradient = document.getElementById('headerGradient');
+const workButton = document.getElementById('workButton');
 const mainTitle = document.getElementById('mainTitle');
+const heroContent = document.getElementById('heroContent');
 const scrollingTextContainer = document.getElementById('scrollingTextContainer');
 const scrollingText = document.getElementById('scrollingText');
-const workButton = document.getElementById('workButton');
 const workSection = document.getElementById('workSection');
-const projectsList = document.getElementById('projectsList');
-const headerGradient = document.getElementById('headerGradient');
-const bottomGradient = document.getElementById('bottomGradient');
 const topLine = document.getElementById('topLine');
+const projectsList = document.getElementById('projectsList');
 const footer = document.getElementById('footer');
+const bottomGradient = document.getElementById('bottomGradient');
+const cloverPlaceholder = document.getElementById('cloverPlaceholder');
+const navigationContent = document.getElementById('navigationContent');
 
 // Initialize
 function init() {
-  // Render projects
-  renderProjects();
-  
-  // Setup scrolling text
+  // Set up scrolling text
   const text = scrollingWords.join('  ✦  ');
   const fullText = `${text}  ✦  ${text}  ✦  ${text}  ✦  ${text}`;
   scrollingText.textContent = fullText;
-  
+
+  // Render projects
+  renderProjects();
+
+  // Update viewport dimensions
+  updateViewportDimensions();
+
+  // Start animation loops
+  requestAnimationFrame(animateClover);
+  requestAnimationFrame(animateScrollingText);
+
   // Event listeners
+  window.addEventListener('resize', updateViewportDimensions);
+  window.addEventListener('wheel', handleWheel);
   container.addEventListener('scroll', handleScroll);
-  container.addEventListener('wheel', handleWheel);
   window.addEventListener('mousemove', handleMouseMove);
-  window.addEventListener('resize', handleResize);
-  clover.addEventListener('click', handleCloverClick);
+  clover.addEventListener('click', () => window.location.reload());
   workButton.addEventListener('click', scrollToWork);
-  
-  // Start animations
-  animateScrollingText();
-  animateClover();
-  
+
+  // Mouse activity tracking
+  let mouseTimeout;
+  window.addEventListener('mousemove', () => {
+    mouseActive = true;
+    clearTimeout(mouseTimeout);
+    mouseTimeout = setTimeout(() => {
+      mouseActive = false;
+    }, 150);
+  });
+
   // Initial update
   updateLayout();
 }
@@ -162,10 +178,33 @@ function renderProjects() {
   `).join('');
 }
 
-// Handle scroll
-function handleScroll() {
-  const scrollPosition = container.scrollTop;
+// Update viewport dimensions
+function updateViewportDimensions() {
+  viewportWidth = window.innerWidth;
+  viewportHeight = window.innerHeight;
   
+  // Update hero text rect
+  if (mainTitle) {
+    heroTextRect = mainTitle.getBoundingClientRect();
+  }
+  
+  updateLayout();
+}
+
+// Handle wheel events
+function handleWheel(e) {
+  scrollDelta = Math.abs(e.deltaY);
+  scrollDirection = e.deltaY > 0 ? 1 : -1;
+}
+
+// Handle scroll events
+let scrollTimeout;
+function handleScroll() {
+  if (isAutoScrolling) return;
+  
+  const scrollPosition = container.scrollTop;
+
+  // Smoothly transition based on scroll position
   if (scrollPosition > 100) {
     scrollProgress = 1;
     showWorkButton = false;
@@ -173,162 +212,224 @@ function handleScroll() {
     scrollProgress = scrollPosition / 100;
     showWorkButton = scrollProgress < 0.5;
   }
-  
+
+  // Clear any existing timeout
+  clearTimeout(scrollTimeout);
+
+  // Set timeout to detect when scrolling stops
+  scrollTimeout = setTimeout(() => {
+    // If we're in the transition zone (between 10px and 90px), auto-complete
+    if (scrollPosition > 10 && scrollPosition < 90) {
+      isAutoScrolling = true;
+
+      // Determine which direction to complete the scroll
+      const shouldScrollToWork = scrollPosition > 50;
+      const targetScroll = shouldScrollToWork ? 100 : 0;
+
+      // Smooth scroll to target
+      container.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth'
+      });
+
+      // Reset auto-scrolling flag after animation completes
+      setTimeout(() => {
+        isAutoScrolling = false;
+      }, 600);
+    }
+  }, 150);
+
   updateLayout();
 }
 
-// Handle wheel for scroll delta
-function handleWheel(e) {
-  scrollDelta = Math.abs(e.deltaY);
-  scrollDirection = e.deltaY > 0 ? 1 : -1;
-  
-  // Add boost to scrolling text
-  const boost = scrollDelta * 0.3;
-  scrollBoost = Math.min(boost, 30);
-  currentDirection = scrollDirection;
-  
-  // Clear existing timeout
-  if (directionResetTimeout) {
-    clearTimeout(directionResetTimeout);
-  }
-  
-  // Reset direction after scrolling stops
-  directionResetTimeout = setTimeout(() => {
-    currentDirection = 1;
-  }, 150);
-  
-  // Boost clover rotation
-  cloverRotationSpeed = Math.min(5 + (scrollDelta * 0.1), 15);
-  
-  // Decay scroll delta
-  setTimeout(() => {
-    scrollDelta = 0;
-  }, 100);
-}
-
-// Handle mouse move
-let mouseTimeout;
+// Handle mouse movement
 function handleMouseMove() {
   mouseActive = true;
-  clearTimeout(mouseTimeout);
-  mouseTimeout = setTimeout(() => {
-    mouseActive = false;
-  }, 150);
-}
-
-// Handle resize
-function handleResize() {
-  isMobile = window.innerWidth < 768;
-  viewportWidth = window.innerWidth;
-  viewportHeight = window.innerHeight;
-  updateLayout();
-}
-
-// Handle clover click
-function handleCloverClick() {
-  window.location.reload();
 }
 
 // Scroll to work section
 function scrollToWork() {
   scrollProgress = 1;
-  updateLayout();
   setTimeout(() => {
-    workSection.scrollIntoView({ behavior: 'smooth' });
+    workSection.scrollIntoView({
+      behavior: 'smooth'
+    });
   }, 50);
-}
-
-// Update layout based on scroll progress
-function updateLayout() {
-  // Title opacity and scale
-  const titleOpacity = Math.max(0, 1 - (scrollProgress * 1.3));
-  const titleScale = 1 - (scrollProgress * 0.15);
-  mainTitle.style.opacity = titleOpacity;
-  mainTitle.style.transform = `scale(${titleScale})`;
-  
-  // Scrolling text opacity and position
-  const scrollingTextOpacity = Math.max(0, 1 - (scrollProgress * 1.2));
-  const scrollingTextTranslateY = scrollProgress * 80;
-  scrollingTextContainer.style.opacity = scrollingTextOpacity;
-  scrollingTextContainer.style.transform = `translateY(${scrollingTextTranslateY}px)`;
-  
-  // Clover positioning
-  const cloverScale = 1 - (scrollProgress * 0.35);
-  
-  const startY = isMobile ? viewportHeight * 0.38 : viewportHeight * 0.50;
-  const endY = 80;
-  const cloverY = startY - ((startY - endY) * scrollProgress);
-  
-  const startX = isMobile ? viewportWidth * 0.5 : viewportWidth * 0.26;
-  const endX = viewportWidth * 0.5;
-  const cloverX = startX - ((startX - endX) * scrollProgress);
-  
-  clover.style.top = `${cloverY}px`;
-  clover.style.left = `${cloverX}px`;
-  clover.style.transform = `translate(-50%, -50%) scale(${cloverScale})`;
-  
-  // Work content opacity
-  const workContentOpacity = Math.max(0, Math.min(1, (scrollProgress - 0.1) / 0.5));
-  const workContentTranslateY = Math.max(0, (1 - scrollProgress) * 40);
-  
-  projectsList.style.opacity = workContentOpacity;
-  projectsList.style.transform = `translateY(${workContentTranslateY}px)`;
-  topLine.style.opacity = workContentOpacity;
-  topLine.style.transform = `translateY(${workContentTranslateY}px)`;
-  footer.style.opacity = workContentOpacity;
-  
-  // Header gradient opacity
-  const headerGradientOpacity = Math.min(0.95, scrollProgress * 3);
-  headerGradient.style.opacity = headerGradientOpacity;
-  
-  // Bottom gradient opacity
-  const bottomGradientOpacity = Math.max(0, 1 - (scrollProgress * 2.5));
-  bottomGradient.style.opacity = bottomGradientOpacity;
-  
-  // Work button visibility
-  workButton.style.opacity = showWorkButton ? 1 : 0;
-  workButton.style.pointerEvents = showWorkButton ? 'auto' : 'none';
-}
-
-// Animate scrolling text
-function animateScrollingText() {
-  // Decay scroll boost
-  scrollBoost *= 0.95;
-  
-  // Calculate current speed
-  const baseSpeed = 0.8;
-  const currentSpeed = (baseSpeed + scrollBoost) * currentDirection;
-  
-  // Update offset
-  scrollingTextOffset += currentSpeed;
-  
-  // Normalize offset for looping
-  const textWidth = 2000;
-  const normalizedOffset = ((scrollingTextOffset % textWidth) + textWidth) % textWidth;
-  
-  // Apply transform
-  scrollingText.style.transform = `translateX(-${normalizedOffset}px)`;
-  
-  requestAnimationFrame(animateScrollingText);
 }
 
 // Animate clover rotation
 function animateClover() {
-  // Decay rotation speed back to base
-  if (!mouseActive && scrollDelta === 0) {
-    cloverRotationSpeed += (0.5 - cloverRotationSpeed) * 0.1;
-  }
-  
-  // Update rotation
-  cloverRotation += cloverRotationSpeed;
-  
-  // Apply rotation to leaves only
-  if (cloverLeaves) {
-    cloverLeaves.style.transform = `rotate(${cloverRotation}deg)`;
-  }
-  
+  // Smoothly decay boost
+  spinBoost *= 0.92;
+
+  // Always have base rotation (slow clockwise)
+  const baseSpeed = 0.3;
+
+  // Rotate with base speed + scroll boost, TIMES direction
+  const totalSpeed = (baseSpeed + spinBoost) * currentDirection;
+  cloverAngle += totalSpeed;
+
+  // Apply rotation
+  cloverLeaves.style.transform = `translate(-50%, -50%) rotate(${cloverAngle}deg)`;
+
   requestAnimationFrame(animateClover);
 }
 
-// Start
-init();
+// Update spin boost when scrolling
+let spinDirectionTimeout;
+window.addEventListener('wheel', (e) => {
+  const boost = Math.abs(e.deltaY) * 0.15;
+  spinBoost = Math.min(boost, 12);
+  currentDirection = e.deltaY > 0 ? 1 : -1;
+
+  clearTimeout(spinDirectionTimeout);
+  spinDirectionTimeout = setTimeout(() => {
+    currentDirection = 1;
+  }, 150);
+});
+
+// Animate scrolling text
+function animateScrollingText() {
+  // Decay the scroll boost
+  scrollBoost *= 0.95;
+
+  // Check if mobile
+  const isMobile = viewportWidth < 1024;
+  const baseSpeed = isMobile ? 0.5 : 0.8;
+
+  // Calculate current speed (base + boost) TIMES direction
+  const currentSpeed = (baseSpeed + scrollBoost) * scrollingTextDirection;
+
+  scrollingTextOffset += currentSpeed;
+
+  // Normalize offset for looping
+  const textWidth = 2000;
+  const normalizedOffset = ((scrollingTextOffset % textWidth) + textWidth) % textWidth;
+
+  // Apply transform
+  scrollingText.style.transform = `translateX(-${normalizedOffset}px)`;
+
+  requestAnimationFrame(animateScrollingText);
+}
+
+// Update scrolling text boost when scrolling
+let scrollTextDirectionTimeout;
+window.addEventListener('wheel', (e) => {
+  const isMobile = viewportWidth < 1024;
+  const boost = Math.abs(e.deltaY) * (isMobile ? 0.2 : 0.3);
+  scrollBoost = Math.min(boost, isMobile ? 20 : 30);
+  scrollingTextDirection = e.deltaY > 0 ? 1 : -1;
+
+  clearTimeout(scrollTextDirectionTimeout);
+  scrollTextDirectionTimeout = setTimeout(() => {
+    scrollingTextDirection = 1;
+  }, 150);
+});
+
+// Update layout based on scroll progress
+function updateLayout() {
+  const isMobile = viewportWidth < 1024;
+
+  // Calculate dynamic styles based on scroll progress
+  const titleOpacity = Math.max(0, 1 - scrollProgress * 1.3);
+  const titleScale = 1 - scrollProgress * 0.15;
+  const scrollingTextOpacity = Math.max(0, 1 - scrollProgress * 1.2);
+  const scrollingTextTranslateY = scrollProgress * 80;
+
+  // Clover positioning
+  const CLOVER_SIZE = isMobile ? 60 : 96;
+  const MIN_GAP = isMobile ? 12 : 20;
+
+  let startX;
+  let baseCloverScale = 1.0;
+
+  if (heroTextRect) {
+    const textLeftEdge = heroTextRect.left;
+    const availableSpaceForClover = textLeftEdge - MIN_GAP;
+
+    startX = textLeftEdge - CLOVER_SIZE / 2 - MIN_GAP;
+
+    const idealCloverSpace = CLOVER_SIZE + MIN_GAP;
+    if (availableSpaceForClover < idealCloverSpace) {
+      baseCloverScale = Math.max(0.5, availableSpaceForClover / idealCloverSpace);
+      startX = textLeftEdge - (CLOVER_SIZE * baseCloverScale) / 2 - MIN_GAP;
+    }
+
+    if (viewportWidth < 805) {
+      baseCloverScale *= 0.6;
+    } else if (viewportWidth < 1024) {
+      baseCloverScale *= 0.85;
+    }
+  } else {
+    if (viewportWidth < 805) {
+      startX = viewportWidth * 0.15;
+      baseCloverScale = 0.6;
+    } else if (viewportWidth < 1024) {
+      startX = viewportWidth * 0.18;
+      baseCloverScale = 0.85;
+    } else {
+      startX = viewportWidth * 0.24;
+      baseCloverScale = 1.0;
+    }
+  }
+
+  const startY = viewportHeight * 0.47;
+  const endY = 40;
+  const endX = viewportWidth * 0.5;
+
+  const cloverY = viewportHeight > 0 ? startY - (startY - endY) * scrollProgress : startY;
+  const cloverX = viewportWidth > 0 ? startX - (startX - endX) * scrollProgress : startX;
+  const finalCloverScale = baseCloverScale * (1 - scrollProgress * 0.35);
+
+  // Work content animations
+  const workContentOpacity = Math.max(0, Math.min(1, (scrollProgress - 0.1) / 0.5));
+  const workContentTranslateY = Math.max(0, (1 - scrollProgress) * 40);
+  const headerGradientOpacity = Math.min(0.95, scrollProgress * 3);
+  const bottomGradientOpacity = Math.max(0, 1 - scrollProgress * 2.5);
+
+  // Apply styles
+  clover.style.top = `${cloverY}px`;
+  clover.style.left = `${cloverX}px`;
+  clover.style.transform = `translate(-50%, -50%) scale(${finalCloverScale})`;
+
+  mainTitle.style.opacity = titleOpacity;
+  mainTitle.style.transform = `scale(${titleScale})`;
+
+  scrollingTextContainer.style.opacity = scrollingTextOpacity;
+  scrollingTextContainer.style.transform = `translateY(${scrollingTextTranslateY}px)`;
+
+  workButton.style.opacity = showWorkButton ? 1 : 0;
+  workButton.style.pointerEvents = showWorkButton ? 'auto' : 'none';
+
+  headerGradient.style.opacity = headerGradientOpacity;
+  bottomGradient.style.opacity = bottomGradientOpacity;
+
+  topLine.style.opacity = workContentOpacity * 0.3;
+  topLine.style.transform = `translateY(${workContentTranslateY}px)`;
+
+  projectsList.style.opacity = workContentOpacity;
+  projectsList.style.transform = `translateY(${workContentTranslateY}px)`;
+
+  footer.style.opacity = workContentOpacity;
+
+  // Update scrolling text container width to match hero content
+  if (heroContent) {
+    scrollingTextContainer.style.width = `${heroContent.offsetWidth}px`;
+  }
+
+  // Update clover placeholder size for mobile
+  if (isMobile) {
+    cloverPlaceholder.style.width = '60px';
+    cloverPlaceholder.style.height = '60px';
+  } else {
+    cloverPlaceholder.style.width = '96px';
+    cloverPlaceholder.style.height = '96px';
+  }
+}
+
+// Initialize on DOM load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
