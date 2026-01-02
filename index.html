@@ -8,28 +8,24 @@
 </head>
 <body>
   <div id="container" class="container">
-    <!-- anchor targets for navigation (empty but allow jumps) -->
-    <div id="info" aria-hidden="true"></div>
-    <div id="contact" aria-hidden="true"></div>
-
     <!-- Single Morphing Clover -->
     <div id="clover" class="clover">
-      <div class="clover-logo" aria-hidden="true">
+      <div class="clover-logo">
         <!-- Stalk Layer -->
-        <img src="clover-stalk.png" alt="" class="clover-stalk" aria-hidden="true">
+        <img src="clover-stalk.png" alt="" class="clover-stalk">
         <!-- Leaves Layer -->
-        <img id="cloverLeaves" src="clover-leaves.png" alt="" class="clover-leaves" aria-hidden="true">
+        <img id="cloverLeaves" src="clover-leaves.png" alt="" class="clover-leaves">
       </div>
     </div>
 
     <!-- White gradient background for header -->
-    <div id="headerGradient" class="header-gradient" aria-hidden="true"></div>
+    <div id="headerGradient" class="header-gradient"></div>
 
     <!-- Fixed Navigation Overlay -->
     <div class="navigation-overlay">
       <div id="navigationContent" class="navigation-content">
         <a href="#info" class="nav-link">info</a>
-        <button id="workButton" class="work-button" aria-controls="workSection" aria-label="Scroll to work">
+        <button id="workButton" class="work-button">
           <span>↓</span>
           <span>work</span>
           <span>↓</span>
@@ -43,7 +39,7 @@
       <!-- Main Content -->
       <div id="heroContent" class="hero-content">
         <!-- Clover space placeholder -->
-        <div id="cloverPlaceholder" class="clover-placeholder" aria-hidden="true"></div>
+        <div id="cloverPlaceholder" class="clover-placeholder"></div>
         
         <!-- Title -->
         <h1 id="mainTitle" class="main-title">
@@ -52,14 +48,14 @@
       </div>
 
       <!-- Scrolling Text -->
-      <div id="scrollingTextContainer" class="scrolling-text-container" aria-hidden="false">
+      <div id="scrollingTextContainer" class="scrolling-text-container">
         <div class="scrolling-text-wrapper">
           <!-- Left gradient -->
-          <div class="gradient-left" aria-hidden="true"></div>
+          <div class="gradient-left"></div>
           <!-- Right gradient -->
-          <div class="gradient-right" aria-hidden="true"></div>
+          <div class="gradient-right"></div>
           <!-- Scrolling text -->
-          <div id="scrollingText" class="scrolling-text" aria-hidden="true"></div>
+          <div id="scrollingText" class="scrolling-text"></div>
         </div>
       </div>
     </section>
@@ -67,7 +63,7 @@
     <!-- Work Section -->
     <section id="workSection" class="work-section">
       <!-- Horizontal line -->
-      <div id="topLine" class="top-line" aria-hidden="true"></div>
+      <div id="topLine" class="top-line"></div>
 
       <!-- Projects List -->
       <div id="projectsList" class="projects-list">
@@ -75,7 +71,7 @@
       </div>
 
       <!-- Final line after last project -->
-      <div class="final-line" aria-hidden="true"></div>
+      <div class="final-line"></div>
 
       <!-- Footer -->
       <div id="footer" class="footer">
@@ -91,544 +87,9 @@
     </section>
 
     <!-- Bottom gradient that covers projects on landing page -->
-    <div id="bottomGradient" class="bottom-gradient" aria-hidden="true"></div>
+    <div id="bottomGradient" class="bottom-gradient"></div>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-```
-
-
-```css name=styles.css url=https://github.com/mmmgarlic/anaya2026/blob/main/styles.css
-@font-face {
-  font-family: "OfficeTimesRoundMono";
-  src: url("./fonts/OfficeTimesRoundMono.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Define CSS variables used across the stylesheet */
-:root {
-  --blue: #2A00FF;
-  --white: #FFFFFF;
-}
-
-body {
-  font-family: "OfficeTimesRoundMono", monospace;
-  background-color: var(--white);
-}
-
-/* Respect users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.001ms !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Container with custom scrollbar */
-.container {
-  height: 100vh;
-  width: 100vw;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-color: var(--white);
-  scroll-behavior: smooth;
-  position: relative;
-  scrollbar-width: thin;
-  scrollbar-color: var(--blue) transparent;
-  padding-right: 4px;
-}
-
-/* Custom scrollbar */
-.container::-webkit-scrollbar {
-  width: 6px;
-  position: relative;
-}
-
-.container::-webkit-scrollbar-track {
-  background: transparent;
-  margin: 4px;
-}
-
-.container::-webkit-scrollbar-thumb {
-  background: var(--blue);
-  border-radius: 3px;
-  margin-right: 2px;
-}
-
-.container::-webkit-scrollbar-thumb:hover {
-  background: #1a0099;
-}
-
-/* Clover */
-.clover {
-  position: fixed;
-  z-index: 40;
-  cursor: pointer;
-  transition: top 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.clover-logo {
-  position: relative;
-  width: 96px;
-  height: 96px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-}
-
-.clover-stalk {
-  position: absolute;
-  width: 24px;
-  height: auto;
-  z-index: 0;
-  pointer-events: none;
-  left: 50%;
-  top: 75%;
-  transform: translate(-50%, -50%);
-}
-
-.clover-leaves {
-  position: absolute;
-  width: 80px;
-  height: auto;
-  z-index: 10;
-  pointer-events: none;
-  left: 50%;
-  top: 50%;
-  transform-origin: center center;
-  will-change: transform;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.10));
-}
-
-/* Header gradient */
-.header-gradient {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 10px;
-  z-index: 1;
-  pointer-events: none;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0;
-}
-
-.header-gradient::before {
-  content: '';
-  display: block;
-  height: 140px;
-  background: linear-gradient(to bottom, 
-    rgba(255,255,255,1) 0%, 
-    rgba(255,255,255,0.95) 50%, 
-    rgba(255,255,255,0) 100%);
-}
-
-/* Navigation overlay */
-.navigation-overlay {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 128px;
-  pointer-events: none;
-  z-index: 50;
-  background: linear-gradient(to bottom, 
-    rgba(255,255,255,0) 0%, 
-    rgba(42,0,255,0.3) 50%, 
-    rgba(42,0,255,0.8) 100%);
-}
-
-.navigation-content {
-  position: absolute;
-  bottom: 32px;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  pointer-events: auto;
-  color: var(--white);
-  font-size: 24px;
-  padding-left: 48px;
-  padding-right: 48px;
-}
-
-.nav-link {
-  color: var(--white);
-  text-decoration: underline;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-  text-decoration: none;
-}
-
-.work-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-  color: var(--white);
-  font-size: 24px;
-  font-family: 'IBM Plex Mono', monospace;
-  text-decoration: underline;
-  transition: all 0.3s ease;
-}
-
-.work-button:hover {
-  text-decoration: none;
-}
-
-/* Hero Section */
-.hero-section {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 0 16px;
-  background-color: var(--white);
-}
-
-.hero-content {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  margin-bottom: 32px;
-  flex-wrap: nowrap;
-}
-
-.clover-placeholder {
-  width: 96px;
-  height: 96px;
-  flex-shrink: 0;
-}
-
-.main-title {
-  color: var(--blue);
-  font-size: 88px;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  transform-origin: left center;
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-.anaya-link {
-  color: var(--blue);
-  text-decoration: none;
-  text-decoration-thickness: 3.3px;
-  text-underline-offset: 0.8vw;
-  transition: all 0.3s ease;
-}
-
-.anaya-link:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 3.3px;
-  text-underline-offset: 0.8vw;
-}
-
-/* Scrolling Text */
-.scrolling-text-container {
-  margin-bottom: 16px;
-  width: 880px;
-  max-width: 90vw;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.scrolling-text-wrapper {
-  position: relative;
-  width: 100%;
-  height: 40px;
-  overflow: hidden;
-}
-
-.gradient-left {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 10;
-  pointer-events: none;
-  width: 120px;
-  background: linear-gradient(to right, 
-    rgba(255,255,255,1) 0%, 
-    rgba(255,255,255,0) 100%);
-}
-
-.gradient-right {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 10;
-  pointer-events: none;
-  width: 120px;
-  background: linear-gradient(to left, 
-    rgba(255,255,255,1) 0%, 
-    rgba(255,255,255,0) 100%);
-}
-
-.scrolling-text {
-  position: absolute;
-  white-space: nowrap;
-  color: var(--blue);
-  font-size: 24px;
-  will-change: transform;
-}
-
-/* Work Section */
-.work-section {
-  position: relative;
-  background-color: var(--white);
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top: 65px;
-  padding-bottom: 120px;
-  margin-top: -30vh;
-}
-
-.top-line {
-  width: 100%;
-  height: 2px;
-  background-color: var(--blue);
-  opacity: 0;
-  margin-bottom: 20px;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.projects-list {
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0;
-}
-
-.project-card {
-  display: flex;
-  gap: 40px;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  align-items: flex-start;
-}
-
-.project-image {
-  width: 800px;
-  height: 500px;
-  background-color: #CCCCCC;
-  flex-shrink: 0;
-  margin-left: 5px;
-}
-
-.project-content {
-  flex: 1;
-  padding-right: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.project-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
-  gap: 0;
-}
-
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  max-width: 350px;
-}
-
-.project-tag {
-  background-color: var(--blue);
-  color: var(--white);
-  font-size: 12px;
-  padding: 4px 12px;
-  border-radius: 9999px;
-}
-
-.project-year {
-  color: var(--blue);
-  font-size: 32px;
-  line-height: 1;
-  padding-right: 10px;
-  flex-shrink: 0;
-  text-align: right;
-}
-
-.project-title {
-  color: var(--blue);
-  font-size: 36px;
-  margin-bottom: 16px;
-  font-weight: 400;
-}
-
-.project-description {
-  color: var(--blue);
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.project-divider {
-  width: 100%;
-  height: 2px;
-  background-color: var(--blue);
-  opacity: 0.3;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.final-line {
-  width: 100%;
-  height: 2px;
-  background-color: var(--blue);
-  opacity: 0.3;
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
-
-/* Footer */
-.footer {
-  text-align: center;
-  color: var(--blue);
-  font-size: 14px;
-  margin-top: 80px;
-  padding-bottom: 60px;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.footer-link {
-  color: var(--blue);
-  text-decoration: underline;
-  transition: all 0.3s ease;
-}
-
-.footer-link:hover {
-  text-decoration: none;
-}
-
-/* Bottom gradient */
-.bottom-gradient {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-  pointer-events: none;
-  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.bottom-gradient::before {
-  content: '';
-  display: block;
-  height: 40vh;
-  background: linear-gradient(to top, 
-    rgba(255,255,255,1) 0%, 
-    rgba(255,255,255,0.98) 30%, 
-    rgba(255,255,255,0) 100%);
-}
-
-/* Mobile Responsive Styles */
-@media (max-width: 1023px) {
-  .navigation-content {
-    font-size: 18px;
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-
-  .work-button {
-    font-size: 18px;
-  }
-
-  .clover-logo {
-    width: 60px;
-    height: 60px;
-  }
-
-  .clover-stalk {
-    width: 15px;
-  }
-
-  .clover-leaves {
-    width: 50px;
-  }
-
-  .clover-placeholder {
-    width: 60px;
-    height: 60px;
-  }
-
-  .main-title {
-    font-size: clamp(32px, 8vw, 88px);
-  }
-
-  .scrolling-text {
-    font-size: 18px;
-  }
-
-  .work-section {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .project-card {
-    flex-direction: column;
-    gap: 24px;
-    align-items: center;
-  }
-
-  .project-image {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    aspect-ratio: 16/10;
-    margin-left: 0;
-  }
-
-  .project-content {
-    width: 100%;
-    padding-right: 0;
-  }
-
-  .project-header {
-    gap: 16px;
-  }
-
-  .project-tags {
-    max-width: calc(100% - 80px);
-    flex: 1;
-  }
-
-  .project-year {
-    font-size: 28px;
-    padding-right: 0;
-    min-width: 60px;
-  }
-
-  .project-title {
-    font-size: 28px;
-  }
-}
-
-@media (max-width: 804px) {
-  .hero-content {
-    gap: 16px;
-  }
-}
