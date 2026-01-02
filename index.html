@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anaya Maheshwari - Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="container" class="container">
+    <!-- Single Morphing Clover -->
+    <div id="clover" class="clover">
+      <div class="clover-logo">
+        <!-- Stalk Layer -->
+        <img src="clover-stalk.png" alt="" class="clover-stalk">
+        <!-- Leaves Layer -->
+        <img id="cloverLeaves" src="clover-leaves.png" alt="" class="clover-leaves">
+      </div>
+    </div>
+
+    <!-- White gradient background for header -->
+    <div id="headerGradient" class="header-gradient"></div>
+
+    <!-- Fixed Navigation Overlay -->
+    <div class="navigation-overlay">
+      <div id="navigationContent" class="navigation-content">
+        <a href="#info" class="nav-link">info</a>
+        <button id="workButton" class="work-button">
+          <span>↓</span>
+          <span>work</span>
+          <span>↓</span>
+        </button>
+        <a href="#contact" class="nav-link">contact</a>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <!-- Main Content -->
+      <div id="heroContent" class="hero-content">
+        <!-- Clover space placeholder -->
+        <div id="cloverPlaceholder" class="clover-placeholder"></div>
+        
+        <!-- Title -->
+        <h1 id="mainTitle" class="main-title">
+          hi! i'm <a href="#info" class="anaya-link">anaya</a>
+        </h1>
+      </div>
+
+      <!-- Scrolling Text -->
+      <div id="scrollingTextContainer" class="scrolling-text-container">
+        <div class="scrolling-text-wrapper">
+          <!-- Left gradient -->
+          <div class="gradient-left"></div>
+          <!-- Right gradient -->
+          <div class="gradient-right"></div>
+          <!-- Scrolling text -->
+          <div id="scrollingText" class="scrolling-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Section -->
+    <section id="workSection" class="work-section">
+      <!-- Horizontal line -->
+      <div id="topLine" class="top-line"></div>
+
+      <!-- Projects List -->
+      <div id="projectsList" class="projects-list">
+        <!-- Projects will be inserted here by JavaScript -->
+      </div>
+
+      <!-- Final line after last project -->
+      <div class="final-line"></div>
+
+      <!-- Footer -->
+      <div id="footer" class="footer">
+        <div>© 2026 Anaya Maheshwari</div>
+        <div style="margin-top: 8px;">
+          <a href="mailto:anaya.maheshwari@gmail.com" class="footer-link">Email</a>
+          <span> ✦ </span>
+          <a href="https://www.linkedin.com/in/anayamaheshwari/" target="_blank" rel="noopener noreferrer" class="footer-link">Linkedin</a>
+          <span> ✦ </span>
+          <a href="https://www.instagram.com/anayamhw" target="_blank" rel="noopener noreferrer" class="footer-link">Instagram</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom gradient that covers projects on landing page -->
+    <div id="bottomGradient" class="bottom-gradient"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
