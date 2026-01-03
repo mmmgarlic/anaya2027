@@ -7,6 +7,10 @@
   font-display: swap;
 }
 
+.special-char {
+  font-family: "Times New Roman", Times, serif !important;
+}
+
 /* CSS Variables */
 :root {
   --blue: #2A00FF;
@@ -450,6 +454,12 @@ body {
     padding-left: 24px;
     padding-right: 24px;
   }
+
+  .clover {
+  transition: top 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              left 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
   .work-button {
     font-size: 18px;
