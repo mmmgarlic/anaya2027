@@ -99,6 +99,21 @@ let scrollingTextOffset = 0;
 let scrollBoost = 0;
 let scrollingTextDirection = 1;
 
+// --- Fix iOS "one hitch" when returning to landing ---
+// While user is actively scrolling, disable clover CSS transition (iOS Safari stutter fix)
+let scrollingActiveTimeout;
+
+function setScrollingActive(active) {
+  const isMobile = viewportWidth < 1024;
+  if (!isMobile) return;
+
+  // When scrolling: no transition (JS is already animating smoothly)
+  // When stopped: restore your mobile transition
+  clover.style.transition = active
+    ? 'none'
+    : 'transform 0.30s cubic-bezier(0.4, 0, 0.2, 1)';
+}
+
 // --- Direction reset helpers (prevents "stuck backwards" + avoids snap/turbo) ---
 let scrollTextDirectionTimeout;
 function scheduleScrollDirectionReset() {
@@ -304,6 +319,13 @@ let scrollTimeout;
 function handleScroll() {
   if (isAutoScrolling) return;
   
+    // iOS: prevent the one-time clover hitch by disabling transition during active scroll
+  setScrollingActive(true);
+  clearTimeout(scrollingActiveTimeout);
+  scrollingActiveTimeout = setTimeout(() => {
+    setScrollingActive(false);
+  }, 120);
+
   const scrollPosition = container.scrollTop;
 
   // Smoothly transition based on scroll position
