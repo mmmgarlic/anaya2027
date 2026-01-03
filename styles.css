@@ -34,11 +34,12 @@ body {
   overflow-x: hidden;
   background-color: var(--white);
   scroll-behavior: smooth;
+  padding-right: 1px;
 }
 
 /* Custom scrollbar */
 .container::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 .container::-webkit-scrollbar-track {
@@ -171,9 +172,17 @@ body {
   color: var(--white);
   font-size: 24px;
   font-family: "OfficeTimesRoundMono", monospace;
-  text-decoration: underline;
   transition: opacity 0.3s ease, text-decoration 0.3s ease;
 }
+
+.work-button span:nth-child(2) {
+  text-decoration: underline;
+}
+
+.work-button:hover span:nth-child(2) {
+  text-decoration: none;
+}
+
 
 .work-button:hover {
   text-decoration: none;
@@ -195,7 +204,7 @@ body {
   display: flex;
   align-items: center;
   gap: 32px;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   flex-wrap: nowrap;
 }
 
@@ -214,7 +223,7 @@ body {
               transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: left center;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.05;
 }
 
 .anaya-link {
