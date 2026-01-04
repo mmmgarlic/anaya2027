@@ -293,16 +293,11 @@ function renderProjects() {
   `).join('');
 }
 
-// Update viewport dimensions
 function updateViewportDimensions() {
   viewportWidth = window.innerWidth;
   viewportHeight = window.innerHeight;
-  
-  // Update hero text rect
-  if (mainTitle) {
-    heroTextRect = mainTitle.getBoundingClientRect();
-  }
-  
+
+  if (mainTitle) heroTextRect = mainTitle.getBoundingClientRect();
   requestLayoutUpdate();
 }
 
@@ -349,7 +344,8 @@ function handleScroll() {
       const targetScroll = shouldScrollToWork ? 100 : 0;
 
 const isMobile = viewportWidth < 1024;
-container.scrollTo({ top: targetScroll, behavior: 'smooth' }); 
+container.scrollTo({ top: targetScroll, behavior: isMobile ? 'auto' : 'smooth' });
+
 
 
       // Reset auto-scrolling flag after animation completes
@@ -514,6 +510,7 @@ const endX = viewportWidth * 0.5;
 
 const cloverY = viewportHeight > 0 ? startY - (startY - endY) * scrollProgress : startY;
 const cloverX = viewportWidth > 0 ? startX - (startX - endX) * scrollProgress : startX;
+
 const finalCloverScale = baseCloverScale * (1 - scrollProgress * 0.35);
 
   // Work content animations
