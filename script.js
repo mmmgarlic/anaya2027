@@ -6,65 +6,58 @@ const WHITE = '#FFFFFF';
 const projects = [
   {
     id: 1,
-    title: 'Lorem Ipsum Dolor',
+    title: 'Wayfarer',
     year: '2025',
-    tags: ['Creative Code', 'Chatbot Creation', 'Web Design', 'Game Design'],
+    tags: ['MOTION GRAPHICS','VIDEO EDITING','3D ANIMATION'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 2,
-    title: 'Consectetur Adipiscing',
+    title: 'Sharp Cheddar',
     year: '2025',
-    tags: ['Interactive', 'Generative Art', 'Web Design'],
+    tags: ['TYPE DESIGN', 'ANIMATION'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 3,
-    title: 'Sed Do Eiusmod',
+    title: 'On The Groove',
     year: '2024',
-    tags: ['Music Production', 'Sound Design', 'Audio'],
+    tags: ['CAMPAIGN DESIGN','BRANDING & MARKETING'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 4,
-    title: 'Tempor Incididunt',
+    title: 'The Ritual',
     year: '2024',
-    tags: ['UI/UX Design', 'Prototyping', 'Mobile'],
+    tags: ['VIDEO SHOOTING + EDITING', 'SET CREATION', 'CREATIVE DIRECTION'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 5,
-    title: 'Ut Labore Magna',
+    title: 'Back to School with Goodnotes',
     year: '2024',
-    tags: ['Animation', 'Motion Graphics', 'Video'],
+    tags: ['ILLUSTRATION', 'STICKER DESIGN', 'BRANDING + MARKETING DESIGN'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 6,
-    title: 'Aliqua Enim Minim',
+    title: 'Thirsty Robots',
     year: '2023',
-    tags: ['Data Visualization', 'Creative Code', 'Interactive'],
+    tags: ['CREATIVE CODE', 'AI CHATBOT CREATION', 'EXPERIMENTAL'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 7,
-    title: 'Veniam Quis Nostrud',
+    title: 'Archive – Editorial Design',
     year: '2023',
-    tags: ['Web Development', 'Full Stack', 'API Design'],
+    tags: ['ZINES + PAMPHLETS', 'COVER DESIGN','PUBLICATION DESIGN', 'LAYOUTING'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 8,
-    title: 'Exercitation Ullamco',
+    title: 'Archive – Miscellaneous',
     year: '2023',
-    tags: ['3D Design', 'Blender', 'Rendering'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },
-  {
-    id: 9,
-    title: 'Laboris Nisi Aliquip',
-    year: '2023',
-    tags: ['Game Design', 'Unity', 'Interactive'],
+    tags: ['Random', 'Lol', 'Idk'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   }
 ];
@@ -74,9 +67,9 @@ const scrollingWords = [
   'GRAPHIC DESIGNER',
   'INTERACTION ARTIST',
   'CREATIVE CODER',
-  'MUSIC CREATOR',
   'FILM ENTHUSIAST',
-  'VIDEO GAME LOVER'
+  'VIDEO GAME LOVER',
+  'MUSIC CREATOR'
 ];
 
 // State variables
