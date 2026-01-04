@@ -269,6 +269,21 @@ window.addEventListener('touchend', () => {
 
   // Initial update
   requestLayoutUpdate();
+
+  window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    updateViewportDimensions();
+    requestLayoutUpdate();
+  }, 250);
+});
+
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', () => {
+    updateViewportDimensions();
+    requestLayoutUpdate();
+  });
+}
+
 }
 
 // Render projects
@@ -294,8 +309,11 @@ function renderProjects() {
 }
 
 function updateViewportDimensions() {
-  viewportWidth = window.innerWidth;
-  viewportHeight = window.innerHeight;
+  const vv = window.visualViewport;
+
+  // iOS landscape: visualViewport is more reliable than innerWidth/innerHeight
+  viewportWidth = vv ? vv.width : window.innerWidth;
+  viewportHeight = vv ? vv.height : window.innerHeight;
 
   if (mainTitle) heroTextRect = mainTitle.getBoundingClientRect();
   requestLayoutUpdate();
@@ -455,55 +473,57 @@ function updateLayout() {
   const MIN_GAP = isMobile ? 12 : 20;
 
   let startX;
+  let startY;
   let baseCloverScale = 1.0;
 
-  if (heroTextRect) {
-    const textLeftEdge = heroTextRect.left;
-    const availableSpaceForClover = textLeftEdge - MIN_GAP;
+  const isLandscapeMobile = isMobile && viewportWidth > viewportHeight;
 
-    startX = textLeftEdge - CLOVER_SIZE / 2 - MIN_GAP;
-
-    const idealCloverSpace = CLOVER_SIZE + MIN_GAP;
-    if (availableSpaceForClover < idealCloverSpace) {
-      baseCloverScale = Math.max(0.5, availableSpaceForClover / idealCloverSpace);
-      startX = textLeftEdge - (CLOVER_SIZE * baseCloverScale) / 2 - MIN_GAP;
-    }
-
-if (viewportWidth < 805) {
-  baseCloverScale *= 0.95;
-} else if (viewportWidth < 1024) {
-  baseCloverScale *= 0.98;
-}
-
+  // ✅ Mobile landscape: anchor clover to placeholder (stable on iPhone)
+  if (isLandscapeMobile && cloverPlaceholder) {
+    const ph = cloverPlaceholder.getBoundingClientRect();
+    startX = ph.left + ph.width / 2;
+    startY = ph.top + ph.height / 2;
+    baseCloverScale = 1.0;
   } else {
-    if (viewportWidth < 805) {
-      startX = viewportWidth * 0.15;
-      baseCloverScale = 0.6;
-    } else if (viewportWidth < 1024) {
-      startX = viewportWidth * 0.18;
-      baseCloverScale = 0.85;
+    // Your existing title-based logic (portrait + desktop)
+    if (heroTextRect) {
+      const textLeftEdge = heroTextRect.left;
+      const availableSpaceForClover = textLeftEdge - MIN_GAP;
+
+      startX = textLeftEdge - CLOVER_SIZE / 2 - MIN_GAP;
+
+      const idealCloverSpace = CLOVER_SIZE + MIN_GAP;
+      if (availableSpaceForClover < idealCloverSpace) {
+        baseCloverScale = Math.max(0.5, availableSpaceForClover / idealCloverSpace);
+        startX = textLeftEdge - (CLOVER_SIZE * baseCloverScale) / 2 - MIN_GAP;
+      }
+
+      if (viewportWidth < 805) {
+        baseCloverScale *= 0.95;
+      } else if (viewportWidth < 1024) {
+        baseCloverScale *= 0.98;
+      }
+
+      startY = heroTextRect.top + heroTextRect.height * 0.55 - 10;
     } else {
-      startX = viewportWidth * 0.24;
-      baseCloverScale = 1.0;
+      if (viewportWidth < 805) {
+        startX = viewportWidth * 0.15;
+        baseCloverScale = 0.6;
+      } else if (viewportWidth < 1024) {
+        startX = viewportWidth * 0.18;
+        baseCloverScale = 0.85;
+      } else {
+        startX = viewportWidth * 0.24;
+        baseCloverScale = 1.0;
+      }
+
+      const minH = 520;
+      const maxH = 820;
+      const t = Math.max(0, Math.min(1, (viewportHeight - minH) / (maxH - minH)));
+      const factor = 0.38 + (0.45 - 0.38) * t;
+      startY = viewportHeight * factor;
     }
   }
-
-  // Clover Y should track the title, not just viewport height
-let startY;
-
-if (heroTextRect) {
-  // place clover around the vertical center of the title (tweak the 0.55 if needed)
-  startY = heroTextRect.top + heroTextRect.height * 0.55 - 10;
-
-} else {
-  // fallback: adaptive factor for small heights
-  const minH = 520;
-  const maxH = 820;
-  const t = Math.max(0, Math.min(1, (viewportHeight - minH) / (maxH - minH))); // 0..1
-  const factor = 0.38 + (0.45 - 0.38) * t; // 0.38 (short) → 0.45 (tall)
-  startY = viewportHeight * factor;
-}
-
 
 const endY = 35; 
 const endX = viewportWidth * 0.5;
