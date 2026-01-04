@@ -9,56 +9,56 @@ const projects = [
     title: 'Wayfarer',
     year: '2025',
     tags: ['MOTION GRAPHICS','VIDEO EDITING','3D ANIMATION'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    description: 'Creating a sleek product advert for Wayfarer, a speculative satellite-powered travel companion.'
   },
   {
     id: 2,
     title: 'Sharp Cheddar',
     year: '2025',
     tags: ['TYPE DESIGN', 'ANIMATION'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    description: 'Designing a funky (semi)modular typeface, inspired by 70s cartoons.'
   },
   {
     id: 3,
     title: 'On The Groove',
     year: '2024',
     tags: ['CAMPAIGN DESIGN','BRANDING & MARKETING'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    description: 'Conceptualising a speculative Spotify feature + campaign that connects London Underground commuters through music.'
   },
   {
     id: 4,
     title: 'The Ritual',
     year: '2024',
     tags: ['VIDEO SHOOTING + EDITING', 'SET CREATION', 'CREATIVE DIRECTION'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    description: 'An original 16mm short film, exploring romance and resurrection.'
   },
   {
     id: 5,
     title: 'Back to School with Goodnotes',
     year: '2024',
     tags: ['ILLUSTRATION', 'STICKER DESIGN', 'BRANDING + MARKETING DESIGN'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    description: 'Refreshing and reimagining Goodnotes’ Back-to-School sticker pack, released in-app to 24M+ subscribers.' '
   },
   {
     id: 6,
     title: 'Thirsty Robots',
     year: '2023',
     tags: ['CREATIVE CODE', 'AI CHATBOT CREATION', 'EXPERIMENTAL'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    description: 'Building a series of playful, interactive web experiences that reveal the hidden environmental cost of AI.'
   },
   {
     id: 7,
     title: 'Archive – Editorial Design',
     year: '2023',
     tags: ['ZINES + PAMPHLETS', 'COVER DESIGN','PUBLICATION DESIGN', 'LAYOUTING'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    description: 'A collection of selected editorial design work.'
   },
   {
     id: 8,
     title: 'Archive – Miscellaneous',
     year: '2023',
     tags: ['Random', 'Lol', 'Idk'],
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    description: 'A collection of selected design experiments.'
   }
 ];
 
