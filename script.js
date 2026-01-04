@@ -37,7 +37,7 @@ const projects = [
     title: 'Back to School with Goodnotes',
     year: '2024',
     tags: ['Illustration', 'Sticker Design', 'Branding + Marketing Design'],
-    description: 'Refreshing and reimagining Goodnotes’ Back-to-School sticker pack, released in-app to 24M+ subscribers.' '
+    description: 'Refreshing and reimagining Goodnotes’ Back-to-School sticker pack, released in-app to 24M+ subscribers.' 
   },
   {
     id: 6,
