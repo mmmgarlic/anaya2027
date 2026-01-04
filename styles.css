@@ -566,21 +566,4 @@ body {
   }
 }
 
-/* iPhone/mobile landscape*/
-@media (max-width: 1023px) and (orientation: landscape) {
-  .hero-section {
-    height: 100svh;          /* iOS-friendly */
-    padding-top: 12px;
-    padding-bottom: 0;
-  }
 
-  /* your mobile tweak (-14px) is great in portrait, but in landscape it causes collisions */
-  .scrolling-text-container {
-    margin-top: 0;
-  }
-
-  /* keep the title from feeling huge/off-balance in the short height */
-  .main-title {
-    font-size: clamp(28px, 5.6vw, 52px);
-  }
-}
