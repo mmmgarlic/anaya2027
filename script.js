@@ -64,12 +64,11 @@ const projects = [
 
 // Scrolling text words
 const scrollingWords = [
-  'GRAPHIC DESIGNER',
-  'INTERACTION ARTIST',
-  'CREATIVE CODER',
-  'FILM ENTHUSIAST',
-  'VIDEO GAME LOVER',
-  'MUSIC CREATOR'
+  'graphic design',
+  'creative code', 
+  'branding', 
+  'film',
+  'game design'
 ];
 
 // State variables
