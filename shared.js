@@ -109,14 +109,13 @@
   const clover = document.getElementById('clover');
   const headerGradient = document.getElementById('headerGradient');
 
-if (container) container.scrollTop = 0;
+  if (container) container.scrollTop = 0;
 
   const applyWorkViewClover = () => {
     if (!clover) return;
 
-    const isMobile =
-      (window.visualViewport ? window.visualViewport.width : window.innerWidth) < 1024;
     const viewportWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+    const isMobile = viewportWidth < 1024;
 
     let baseCloverScale = 1.0;
     if (viewportWidth < 805) baseCloverScale = 0.6;
@@ -146,4 +145,42 @@ if (container) container.scrollTop = 0;
   window.addEventListener('resize', applyWorkViewClover);
 
   if (headerGradient) headerGradient.style.opacity = '0.95';
+})();
+
+// info page: pin clover to the "default top" position (no fly-in / no script.js dependency)
+(() => {
+  const clover = document.getElementById('clover');
+  if (!clover) return;
+
+  const filename = window.location.pathname.split('/').pop();
+  const isInfoPage = filename === 'info.html';
+  if (!isInfoPage) return;
+
+  const applyStaticClover = () => {
+    const viewportWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+    const isMobile = viewportWidth < 1024;
+
+    let baseCloverScale = 1.0;
+    if (viewportWidth < 805) baseCloverScale = 0.6;
+    else if (viewportWidth < 1024) baseCloverScale = 0.85;
+
+    // match the project-page "work view" clover values
+    const finalCloverScale = baseCloverScale * 0.65;
+    const endX = viewportWidth * 0.5;
+    const endY = isMobile ? 22 : 35;
+
+    clover.style.transform =
+      `translate3d(${endX}px, ${endY}px, 0) translate(-50%, -50%) scale(${finalCloverScale})`;
+  };
+
+  // IMPORTANT: kill any transition so it doesn't "fly in"
+  const prevTransition = clover.style.transition;
+  clover.style.transition = 'none';
+  applyStaticClover();
+
+  requestAnimationFrame(() => {
+    clover.style.transition = prevTransition; // restore for other interactions
+  });
+
+  window.addEventListener('resize', applyStaticClover);
 })();

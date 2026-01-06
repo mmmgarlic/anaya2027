@@ -1,3 +1,5 @@
+/* script.js */
+
 // Constants
 const BLUE = '#2A00FF';
 const WHITE = '#FFFFFF';
@@ -79,9 +81,9 @@ const projects = [
 
 // Scrolling text words
 const scrollingWords = [
-  'creative code', 
+  'creative code',
   'graphic design',
-  'branding', 
+  'branding',
   'film',
   'game design'
 ];
@@ -157,6 +159,7 @@ function setScrollingActive(active) {
   const isMobile = viewportWidth < 1024;
   if (!isMobile) return;
 
+  if (!clover) return;
   clover.style.transition = active
     ? 'none'
     : 'transform 0.30s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -197,12 +200,43 @@ function requestLayoutUpdate() {
   });
 }
 
+/* =========================
+   MOBILE: Block project clicks + show overlay
+   ========================= */
+function setupMobileProjectLock() {
+  if (!projectsList) return;
+
+  const isMobile = () => window.matchMedia('(max-width: 1023px)').matches;
+
+  projectsList.addEventListener('click', (e) => {
+    const link = e.target.closest('a.project-link');
+    if (!link) return;
+
+    // mobile only
+    if (!isMobile()) return;
+
+    // ignore disabled (coming soon) projects
+    if (link.classList.contains('is-disabled')) return;
+
+    // stop navigation + show overlay
+    e.preventDefault();
+
+    link.classList.add('is-mobile-locked');
+    window.setTimeout(() => {
+      link.classList.remove('is-mobile-locked');
+    }, 900);
+  }, { passive: false });
+}
+
 // Initialize
 function init() {
-  // Set up scrolling text
-  const text = scrollingWords.join('  ✦  ');
-  const fullText = `${text}  ✦  ${text}  ✦  ${text}  ✦  ${text}`;
-  scrollingText.textContent = fullText;
+  if (scrollingText) {
+    // Set up scrolling text
+    const text = scrollingWords.join('  ✦  ');
+    const fullText = `${text}  ✦  ${text}  ✦  ${text}  ✦  ${text}`;
+    scrollingText.textContent = fullText;
+  }
+
   wrapSpecialChars(document.body);
 
   // Render projects
@@ -212,57 +246,57 @@ function init() {
   updateViewportDimensions();
 
   // Start animation loops
-  requestAnimationFrame(animateClover);
-  requestAnimationFrame(animateScrollingText);
+  if (cloverLeaves) requestAnimationFrame(animateClover);
+  if (scrollingText) requestAnimationFrame(animateScrollingText);
 
   // Event listeners
   window.addEventListener('resize', updateViewportDimensions);
-  container.addEventListener('scroll', handleScroll);
+  if (container) container.addEventListener('scroll', handleScroll);
   window.addEventListener('mousemove', handleMouseMove);
-  clover.addEventListener('click', () => window.location.reload());
-  workButton.addEventListener('click', scrollToWork);
+
+  if (clover) clover.addEventListener('click', () => window.location.reload());
+  if (workButton) workButton.addEventListener('click', scrollToWork);
 
   // --- Mobile: make scroll boost work on touch (no wheel on phones) ---
-let lastTouchY = null;
-let lastTouchTime = 0;
+  let lastTouchY = null;
+  let lastTouchTime = 0;
 
-window.addEventListener('touchstart', (e) => {
-  if (!e.touches || !e.touches[0]) return;
-  lastTouchY = e.touches[0].clientY;
-  lastTouchTime = performance.now();
-}, { passive: true });
+  window.addEventListener('touchstart', (e) => {
+    if (!e.touches || !e.touches[0]) return;
+    lastTouchY = e.touches[0].clientY;
+    lastTouchTime = performance.now();
+  }, { passive: true });
 
-window.addEventListener('touchmove', (e) => {
-  if (!e.touches || !e.touches[0] || lastTouchY == null) return;
+  window.addEventListener('touchmove', (e) => {
+    if (!e.touches || !e.touches[0] || lastTouchY == null) return;
 
-  const y = e.touches[0].clientY;
-  const now = performance.now();
-  const dy = lastTouchY - y; // + = scrolling down
-  const dt = Math.max(1, now - lastTouchTime);
+    const y = e.touches[0].clientY;
+    const now = performance.now();
+    const dy = lastTouchY - y; // + = scrolling down
+    const dt = Math.max(1, now - lastTouchTime);
 
-  const dir = dy > 0 ? 1 : -1;
-  const velocity = Math.min(40, Math.abs(dy) * (16 / dt)); // roughly normalized
+    const dir = dy > 0 ? 1 : -1;
+    const velocity = Math.min(40, Math.abs(dy) * (16 / dt)); // roughly normalized
 
-  // Clover boost
-  spinBoost = Math.min(12, velocity * 0.9);
-  currentDirection = dir;
+    // Clover boost
+    spinBoost = Math.min(12, velocity * 0.9);
+    currentDirection = dir;
 
-  // Scrolling text boost
-  scrollBoost = Math.min(30, velocity * 1.4);
-  scrollingTextDirection = dir;
+    // Scrolling text boost
+    scrollBoost = Math.min(30, velocity * 1.4);
+    scrollingTextDirection = dir;
 
-  // NEW: after touch stops, drift back to default direction
-  scheduleScrollDirectionReset();
-  scheduleSpinDirectionReset();
+    // after touch stops, drift back to default direction
+    scheduleScrollDirectionReset();
+    scheduleSpinDirectionReset();
 
-  lastTouchY = y;
-  lastTouchTime = now;
-}, { passive: true });
+    lastTouchY = y;
+    lastTouchTime = now;
+  }, { passive: true });
 
-window.addEventListener('touchend', () => {
-  lastTouchY = null;
-}, { passive: true });
-
+  window.addEventListener('touchend', () => {
+    lastTouchY = null;
+  }, { passive: true });
 
   // Mouse activity tracking
   let mouseTimeout;
@@ -278,22 +312,23 @@ window.addEventListener('touchend', () => {
   requestLayoutUpdate();
 
   window.addEventListener('orientationchange', () => {
-  setTimeout(() => {
-    updateViewportDimensions();
-    requestLayoutUpdate();
-  }, 250);
-});
-
-if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', () => {
-    updateViewportDimensions();
-    requestLayoutUpdate();
+    setTimeout(() => {
+      updateViewportDimensions();
+      requestLayoutUpdate();
+    }, 250);
   });
-}
 
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      updateViewportDimensions();
+      requestLayoutUpdate();
+    });
+  }
 }
 
 function renderProjects() {
+  if (!projectsList) return;
+
   projectsList.innerHTML = projects.map((project, index) => {
     const mediaHTML = project.media?.type === 'video'
       ? `
@@ -332,6 +367,9 @@ function renderProjects() {
       ${index < projects.length - 1 ? '<div class="project-divider"></div>' : ''}
     `;
   }).join('');
+
+  // enable mobile-only overlay behavior for real (non-disabled) projects
+  setupMobileProjectLock();
 }
 
 function updateViewportDimensions() {
@@ -355,15 +393,15 @@ function handleWheel(e) {
 let scrollTimeout;
 function handleScroll() {
   if (isAutoScrolling) return;
-  
-    // iOS: prevent the one-time clover hitch by disabling transition during active scroll
+
+  // iOS: prevent the one-time clover hitch by disabling transition during active scroll
   setScrollingActive(true);
   clearTimeout(scrollingActiveTimeout);
   scrollingActiveTimeout = setTimeout(() => {
     setScrollingActive(false);
   }, 120);
 
-  const scrollPosition = container.scrollTop;
+  const scrollPosition = container ? container.scrollTop : 0;
 
   // Smoothly transition based on scroll position
   if (scrollPosition > 100) {
@@ -387,10 +425,8 @@ function handleScroll() {
       const shouldScrollToWork = scrollPosition > 50;
       const targetScroll = shouldScrollToWork ? 100 : 0;
 
-const isMobile = viewportWidth < 1024;
-container.scrollTo({ top: targetScroll, behavior: isMobile ? 'auto' : 'smooth' });
-
-
+      const isMobile = viewportWidth < 1024;
+      if (container) container.scrollTo({ top: targetScroll, behavior: isMobile ? 'auto' : 'smooth' });
 
       // Reset auto-scrolling flag after animation completes
       setTimeout(() => {
@@ -399,8 +435,7 @@ container.scrollTo({ top: targetScroll, behavior: isMobile ? 'auto' : 'smooth' }
     }
   }, 150);
 
- requestLayoutUpdate();
-
+  requestLayoutUpdate();
 }
 
 // Handle mouse movement
@@ -412,29 +447,30 @@ function handleMouseMove() {
 function scrollToWork() {
   scrollProgress = 1;
   setTimeout(() => {
-    workSection.scrollIntoView({
-      behavior: 'smooth'
-    });
+    if (workSection) {
+      workSection.scrollIntoView({ behavior: 'smooth' });
+    }
   }, 50);
 }
 
 // Animate clover rotation
 function animateClover() {
-const isMobile = viewportWidth < 1024;
+  const isMobile = viewportWidth < 1024;
 
-// decay (mobile holds boost a bit longer)
-spinBoost *= isMobile ? 0.94 : 0.92;
+  // decay (mobile holds boost a bit longer)
+  spinBoost *= isMobile ? 0.94 : 0.92;
 
-// base rotation (mobile faster)
-const baseSpeed = isMobile ? 0.75 : 0.3;
-
+  // base rotation (mobile faster)
+  const baseSpeed = isMobile ? 0.75 : 0.3;
 
   // Rotate with base speed + scroll boost, TIMES direction
   const totalSpeed = (baseSpeed + spinBoost) * currentDirection;
   cloverAngle += totalSpeed;
 
   // Apply rotation
-  cloverLeaves.style.transform = `translate(-50%, -50%) rotate(${cloverAngle}deg)`;
+  if (cloverLeaves) {
+    cloverLeaves.style.transform = `translate(-50%, -50%) rotate(${cloverAngle}deg)`;
+  }
 
   requestAnimationFrame(animateClover);
 }
@@ -452,8 +488,7 @@ window.addEventListener('wheel', (e) => {
 function animateScrollingText() {
   const isMobile = viewportWidth < 1024;
 
-scrollBoost *= isMobile ? 0.90 : 0.95;
-
+  scrollBoost *= isMobile ? 0.90 : 0.95;
 
   // base speed
   const baseSpeed = isMobile ? 1.3 : 0.8;
@@ -466,7 +501,7 @@ scrollBoost *= isMobile ? 0.90 : 0.95;
   const textWidth = 2000;
   const normalizedOffset = ((scrollingTextOffset % textWidth) + textWidth) % textWidth;
 
-  scrollingText.style.transform = `translateX(-${normalizedOffset}px)`;
+  if (scrollingText) scrollingText.style.transform = `translateX(-${normalizedOffset}px)`;
   requestAnimationFrame(animateScrollingText);
 }
 
@@ -475,9 +510,7 @@ window.addEventListener('wheel', (e) => {
   const isMobile = viewportWidth < 1024;
   const boost = Math.abs(e.deltaY) * (isMobile ? 0.2 : 0.3);
 
-  // keep your cap, or set desktop to 12 if you want it calmer:
-  scrollBoost = Math.min(boost, isMobile ? 20 : 30); // or desktop: 12
-
+  scrollBoost = Math.min(boost, isMobile ? 20 : 30);
   scrollingTextDirection = e.deltaY > 0 ? 1 : -1;
 
   // return to default direction only when boost is calm
@@ -498,56 +531,55 @@ function updateLayout() {
   const CLOVER_SIZE = isMobile ? 48 : 96;
   const MIN_GAP = isMobile ? 12 : 20;
 
-let startX;
-let startY;
-let baseCloverScale = 1.0;
+  let startX;
+  let startY;
+  let baseCloverScale = 1.0;
 
-if (heroTextRect) {
-  const textLeftEdge = heroTextRect.left;
-  const availableSpaceForClover = textLeftEdge - MIN_GAP;
+  if (heroTextRect) {
+    const textLeftEdge = heroTextRect.left;
+    const availableSpaceForClover = textLeftEdge - MIN_GAP;
 
-  startX = textLeftEdge - CLOVER_SIZE / 2 - MIN_GAP;
+    startX = textLeftEdge - CLOVER_SIZE / 2 - MIN_GAP;
 
-  const idealCloverSpace = CLOVER_SIZE + MIN_GAP;
-  if (availableSpaceForClover < idealCloverSpace) {
-    baseCloverScale = Math.max(0.5, availableSpaceForClover / idealCloverSpace);
-    startX = textLeftEdge - (CLOVER_SIZE * baseCloverScale) / 2 - MIN_GAP;
-  }
+    const idealCloverSpace = CLOVER_SIZE + MIN_GAP;
+    if (availableSpaceForClover < idealCloverSpace) {
+      baseCloverScale = Math.max(0.5, availableSpaceForClover / idealCloverSpace);
+      startX = textLeftEdge - (CLOVER_SIZE * baseCloverScale) / 2 - MIN_GAP;
+    }
 
-  if (viewportWidth < 805) {
-    baseCloverScale *= 0.95;
-  } else if (viewportWidth < 1024) {
-    baseCloverScale *= 0.98;
-  }
+    if (viewportWidth < 805) {
+      baseCloverScale *= 0.95;
+    } else if (viewportWidth < 1024) {
+      baseCloverScale *= 0.98;
+    }
 
-  startY = heroTextRect.top + heroTextRect.height * 0.55 - 10;
-} else {
-  if (viewportWidth < 805) {
-    startX = viewportWidth * 0.15;
-    baseCloverScale = 0.6;
-  } else if (viewportWidth < 1024) {
-    startX = viewportWidth * 0.18;
-    baseCloverScale = 0.85;
+    startY = heroTextRect.top + heroTextRect.height * 0.55 - 10;
   } else {
-    startX = viewportWidth * 0.24;
-    baseCloverScale = 1.0;
+    if (viewportWidth < 805) {
+      startX = viewportWidth * 0.15;
+      baseCloverScale = 0.6;
+    } else if (viewportWidth < 1024) {
+      startX = viewportWidth * 0.18;
+      baseCloverScale = 0.85;
+    } else {
+      startX = viewportWidth * 0.24;
+      baseCloverScale = 1.0;
+    }
+
+    const minH = 520;
+    const maxH = 820;
+    const t = Math.max(0, Math.min(1, (viewportHeight - minH) / (maxH - minH)));
+    const factor = 0.38 + (0.45 - 0.38) * t;
+    startY = viewportHeight * factor;
   }
 
-  const minH = 520;
-  const maxH = 820;
-  const t = Math.max(0, Math.min(1, (viewportHeight - minH) / (maxH - minH)));
-  const factor = 0.38 + (0.45 - 0.38) * t;
-  startY = viewportHeight * factor;
-}
+  const endY = 35;
+  const endX = viewportWidth * 0.5;
 
+  const cloverY = viewportHeight > 0 ? startY - (startY - endY) * scrollProgress : startY;
+  const cloverX = viewportWidth > 0 ? startX - (startX - endX) * scrollProgress : startX;
 
-const endY = 35; 
-const endX = viewportWidth * 0.5;
-
-const cloverY = viewportHeight > 0 ? startY - (startY - endY) * scrollProgress : startY;
-const cloverX = viewportWidth > 0 ? startX - (startX - endX) * scrollProgress : startX;
-
-const finalCloverScale = baseCloverScale * (1 - scrollProgress * 0.35);
+  const finalCloverScale = baseCloverScale * (1 - scrollProgress * 0.35);
 
   // Work content animations
   const workContentOpacity = Math.max(0, Math.min(1, (scrollProgress - 0.1) / 0.5));
@@ -555,41 +587,56 @@ const finalCloverScale = baseCloverScale * (1 - scrollProgress * 0.35);
   const headerGradientOpacity = Math.min(0.95, scrollProgress * 3);
   const bottomGradientOpacity = Math.max(0, 1 - scrollProgress * 2.5);
 
-clover.style.transform = `translate3d(${cloverX}px, ${cloverY}px, 0) translate(-50%, -50%) scale(${finalCloverScale})`;
+  if (clover) {
+    clover.style.transform =
+      `translate3d(${cloverX}px, ${cloverY}px, 0) translate(-50%, -50%) scale(${finalCloverScale})`;
+  }
 
-  mainTitle.style.opacity = titleOpacity;
-  mainTitle.style.transform = `scale(${titleScale})`;
+  if (mainTitle) {
+    mainTitle.style.opacity = titleOpacity;
+    mainTitle.style.transform = `scale(${titleScale})`;
+  }
 
-  scrollingTextContainer.style.opacity = scrollingTextOpacity;
-  scrollingTextContainer.style.transform = `translateY(${scrollingTextTranslateY}px)`;
+  if (scrollingTextContainer) {
+    scrollingTextContainer.style.opacity = scrollingTextOpacity;
+    scrollingTextContainer.style.transform = `translateY(${scrollingTextTranslateY}px)`;
+  }
 
-  workButton.style.opacity = showWorkButton ? 1 : 0;
-  workButton.style.pointerEvents = showWorkButton ? 'auto' : 'none';
+  if (workButton) {
+    workButton.style.opacity = showWorkButton ? 1 : 0;
+    workButton.style.pointerEvents = showWorkButton ? 'auto' : 'none';
+  }
 
-  headerGradient.style.opacity = headerGradientOpacity;
-  bottomGradient.style.opacity = bottomGradientOpacity;
+  if (headerGradient) headerGradient.style.opacity = headerGradientOpacity;
+  if (bottomGradient) bottomGradient.style.opacity = bottomGradientOpacity;
 
-  topLine.style.opacity = workContentOpacity * 0.3;
-  topLine.style.transform = `translateY(${workContentTranslateY}px)`;
+  if (topLine) {
+    topLine.style.opacity = workContentOpacity * 0.3;
+    topLine.style.transform = `translateY(${workContentTranslateY}px)`;
+  }
 
-  projectsList.style.opacity = workContentOpacity;
-  projectsList.style.transform = `translateY(${workContentTranslateY}px)`;
+  if (projectsList) {
+    projectsList.style.opacity = workContentOpacity;
+    projectsList.style.transform = `translateY(${workContentTranslateY}px)`;
+  }
 
-  footer.style.opacity = workContentOpacity;
+  if (footer) footer.style.opacity = workContentOpacity;
 
   // Update scrolling text container width to match hero content
-  if (heroContent) {
+  if (heroContent && scrollingTextContainer) {
     scrollingTextContainer.style.width = `${heroContent.offsetWidth}px`;
   }
 
   // Update clover placeholder size for mobile
-if (isMobile) {
-  cloverPlaceholder.style.width = '52px';
-  cloverPlaceholder.style.height = '52px';
-} else {
-  cloverPlaceholder.style.width = '96px';
-  cloverPlaceholder.style.height = '96px';
-}
+  if (cloverPlaceholder) {
+    if (isMobile) {
+      cloverPlaceholder.style.width = '52px';
+      cloverPlaceholder.style.height = '52px';
+    } else {
+      cloverPlaceholder.style.width = '96px';
+      cloverPlaceholder.style.height = '96px';
+    }
+  }
 }
 
 // Initialize on DOM load
