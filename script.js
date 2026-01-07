@@ -8,7 +8,7 @@ const projects = [
   {
     id: 1,
     title: 'Way–farer',
-    year: '2025',
+    year: '2024',
     tags: ['Motion Graphics','Video Editing','3D Animation'],
     description: 'Creating a sleek product advert for Wayfarer, a speculative satellite-powered travel companion.',
     href: 'projects/wayfarer.html',
@@ -17,7 +17,7 @@ const projects = [
   {
     id: 2,
     title: 'Sharp Cheddar',
-    year: '2025',
+    year: '2022',
     tags: ['Type Design', 'Animation'],
     description: 'Designing a funky (semi)modular typeface, inspired by 70s cartoons.',
     href: 'projects/sharpcheddar.html',
@@ -53,7 +53,7 @@ const projects = [
   {
     id: 6,
     title: 'Thirsty Robots',
-    year: '2023',
+    year: '2025',
     tags: ['Creative Coding', 'AI Chatbot Creation', 'Experimental'],
     description: 'Building a series of playful, interactive web experiences that reveal the hidden environmental cost of AI.',
     href: 'projects/thirstyrobots.html',
@@ -62,7 +62,7 @@ const projects = [
   {
     id: 7,
     title: 'Archive – Editorial Design',
-    year: '2023',
+    year: '',
     tags: ['Layouting','Cover Design','Zines + Pamphlets','Publication Design'],
     description: 'A collection of selected editorial design work.',
     href: null,
@@ -71,7 +71,7 @@ const projects = [
   {
     id: 8,
     title: 'Archive – Miscellaneous',
-    year: '2023',
+    year: '',
     tags: ['Random', 'Lol', 'Idk'],
     description: 'A collection of selected design experiments.',
     href: null,
