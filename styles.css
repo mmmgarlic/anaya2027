@@ -1,3 +1,8 @@
+/* styles.css */
+
+/* =========================
+   FONTS
+   ========================= */
 @font-face {
   font-family: "OfficeTimesRoundMono";
   src: url("./fonts/OfficeTimesRoundMono.otf") format("opentype");
@@ -12,24 +17,28 @@
   font-weight: 300;
   font-style: normal;
 }
+
 @font-face {
   font-family: "SF Pro Display";
   src: url("./fonts/SF-Pro-Display-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
+
 @font-face {
   font-family: "SF Pro Display";
   src: url("./fonts/SF-Pro-Display-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
 }
+
 @font-face {
   font-family: "SF Pro Display";
   src: url("./fonts/SF-Pro-Display-Semibold.otf") format("opentype");
   font-weight: 600;
   font-style: normal;
 }
+
 @font-face {
   font-family: "SF Pro Display";
   src: url("./fonts/SF-Pro-Display-Bold.otf") format("opentype");
@@ -41,6 +50,9 @@
   font-family: "Times New Roman", Times, serif !important;
 }
 
+/* =========================
+   VARIABLES + RESET
+   ========================= */
 :root {
   --blue: #2A00FF;
   --white: #FFFFFF;
@@ -53,28 +65,30 @@
 }
 
 /* Mobile-safe defaults for media */
-img, video {
+img,
+video {
   max-width: 100%;
   height: auto;
-  display: block;
 }
 
-/* Prevent horizontal overflow */
-html, body {
+/* Prevent horizontal overflow on small screens */
+html,
+body {
   overflow-x: hidden;
 }
 
+/* =========================
+   BASE
+   ========================= */
 body {
   font-family: "OfficeTimesRoundMono", monospace;
   background-color: var(--white);
-  overflow: hidden; /* keep scroll inside .container */
+  overflow: hidden;
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
 }
 
-/* =========================
-   CONTAINER / SCROLLBAR
-   ========================= */
+/* Container with custom scrollbar */
 .container {
   height: 100vh;
   width: 100vw;
@@ -82,31 +96,34 @@ body {
   overflow-x: hidden;
   background-color: var(--white);
   scroll-behavior: auto;
-  padding-right: 1px; /* keeps scrollbar from shifting layout on desktop */
+  padding-right: 1px;
 }
 
+/* Custom scrollbar */
 .container::-webkit-scrollbar {
   width: 5px;
 }
+
 .container::-webkit-scrollbar-track {
   background: rgba(42, 0, 255, 0.1);
 }
+
 .container::-webkit-scrollbar-thumb {
   background: var(--blue);
   border-radius: 5px;
 }
+
 .container::-webkit-scrollbar-thumb:hover {
   background: rgba(42, 0, 255, 0.8);
 }
 
-/* =========================
-   LINKS
-   ========================= */
+/* Links */
 .project-link {
   display: block;
   text-decoration: none;
   color: inherit;
 }
+
 .project-link.is-disabled {
   cursor: default;
 }
@@ -159,7 +176,7 @@ body {
 }
 
 /* =========================
-   PROJECT PAGE ARROWS (project pages)
+   PROJECT ARROWS (PROJECT PAGES)
    ========================= */
 .project-arrows {
   position: fixed;
@@ -185,7 +202,11 @@ body {
   text-decoration: underline;
   padding: 0;
 }
-.project-arrow:hover { text-decoration: none; }
+
+.project-arrow:hover {
+  text-decoration: none;
+}
+
 .project-arrow.is-disabled {
   opacity: 0.25;
   pointer-events: none;
@@ -205,13 +226,15 @@ body {
 }
 
 .header-gradient::before {
-  content: '';
+  content: "";
   display: block;
   height: 140px;
-  background: linear-gradient(to bottom,
-    rgba(255,255,255,1) 0%,
-    rgba(255,255,255,0.95) 50%,
-    rgba(255,255,255,0) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
 .header-gradient,
@@ -221,7 +244,7 @@ body {
 }
 
 /* =========================
-   NAV OVERLAY
+   NAVIGATION OVERLAY
    ========================= */
 .navigation-overlay {
   position: fixed;
@@ -233,10 +256,12 @@ body {
   height: 128px;
   pointer-events: none;
   z-index: 50;
-  background: linear-gradient(to bottom,
-    rgba(255,255,255,0) 0%,
-    rgba(42,0,255,0.3) 50%,
-    rgba(42,0,255,0.8) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(42, 0, 255, 0.3) 50%,
+    rgba(42, 0, 255, 0.8) 100%
+  );
 }
 
 .navigation-content {
@@ -259,7 +284,10 @@ body {
   text-decoration: underline;
   transition: all 0.3s ease;
 }
-.nav-link:hover { text-decoration: none; }
+
+.nav-link:hover {
+  text-decoration: none;
+}
 
 .work-button {
   display: flex;
@@ -274,11 +302,21 @@ body {
   font-family: "OfficeTimesRoundMono", monospace;
   transition: opacity 0.3s ease, text-decoration 0.3s ease;
 }
-.work-button span:nth-child(2) { text-decoration: underline; }
-.work-button:hover span:nth-child(2) { text-decoration: none; }
+
+.work-button span:nth-child(2) {
+  text-decoration: underline;
+}
+
+.work-button:hover span:nth-child(2) {
+  text-decoration: none;
+}
+
+.work-button:hover {
+  text-decoration: none;
+}
 
 /* =========================
-   HERO
+   HERO SECTION
    ========================= */
 .hero-section {
   height: 100vh;
@@ -311,7 +349,7 @@ body {
   letter-spacing: 0.02em;
   white-space: nowrap;
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: left center;
   font-weight: 400;
   line-height: 1.05;
@@ -324,6 +362,7 @@ body {
   text-underline-offset: 0.8vw;
   transition: all 0.3s ease;
 }
+
 .anaya-link:hover {
   text-decoration: underline;
   text-decoration-thickness: 3.3px;
@@ -337,7 +376,7 @@ body {
   margin-bottom: 16px;
   max-width: 90vw;
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scrolling-text-wrapper {
@@ -347,27 +386,34 @@ body {
   overflow: hidden;
 }
 
-.gradient-left,
-.gradient-right {
+.gradient-left {
   position: absolute;
-  top: 0; bottom: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
   z-index: 10;
   pointer-events: none;
   width: 120px;
-}
-
-.gradient-left {
-  left: 0;
-  background: linear-gradient(to right,
-    rgba(255,255,255,1) 0%,
-    rgba(255,255,255,0) 100%);
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
 .gradient-right {
+  position: absolute;
   right: 0;
-  background: linear-gradient(to left,
-    rgba(255,255,255,1) 0%,
-    rgba(255,255,255,0) 100%);
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  pointer-events: none;
+  width: 120px;
+  background: linear-gradient(
+    to left,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
 .scrolling-text {
@@ -380,7 +426,7 @@ body {
 }
 
 /* =========================
-   WORK SECTION (PROJECT LIST)
+   WORK SECTION (HOMEPAGE PROJECTS)
    ========================= */
 .work-section {
   position: relative;
@@ -389,8 +435,6 @@ body {
   padding-right: 50px;
   padding-top: 65px;
   padding-bottom: 120px;
-
-  /* desktop overlap effect */
   margin-top: -30vh;
 }
 
@@ -401,12 +445,12 @@ body {
   opacity: 0.001;
   margin-bottom: 20px;
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .projects-list {
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0.001;
 }
 
@@ -423,16 +467,18 @@ body {
   width: min(58vw, 820px);
   aspect-ratio: 16 / 10;
   height: auto;
-  background-color: #CCCCCC;
+  background-color: #cccccc;
   margin-left: 5px;
   overflow: hidden;
   border-radius: 12px;
 }
 
-/* Make media always fill the thumbnail area */
+/* IMPORTANT:
+   project thumbnails should fill the aspect-ratio box.
+   global img/video sets height:auto, so force 100% here. */
 .project-media {
   width: 100%;
-  height: 100%;
+  height: 100% !important;
   object-fit: cover;
   display: block;
 }
@@ -444,7 +490,7 @@ body {
   display: flex;
   flex-direction: column;
 
-  /* reduce the "excess space" from earlier */
+  /* desktop spacing */
   padding-top: clamp(24px, 6vw, 90px);
   padding-bottom: clamp(24px, 6vw, 90px);
 }
@@ -492,7 +538,6 @@ body {
   color: var(--blue);
   font-size: 16px;
   line-height: 1.6;
-  margin-bottom: 0; /* important: stops extra space before divider */
 }
 
 .project-divider {
@@ -512,9 +557,7 @@ body {
   margin-bottom: 40px;
 }
 
-/* =========================
-   FOOTER
-   ========================= */
+/* Footer */
 .footer {
   text-align: center;
   color: var(--blue);
@@ -529,147 +572,159 @@ body {
   text-decoration: underline;
   transition: all 0.3s ease;
 }
-.footer-link:hover { text-decoration: none; }
 
-/* =========================
-   BOTTOM GRADIENT
-   ========================= */
+.footer-link:hover {
+  text-decoration: none;
+}
+
+/* Bottom gradient */
 .bottom-gradient {
   position: fixed;
   bottom: 0;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
   pointer-events: none;
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bottom-gradient::before {
-  content: '';
+  content: "";
   display: block;
   height: 40vh;
-  background: linear-gradient(to top,
-    rgba(255,255,255,1) 0%,
-    rgba(255,255,255,0.98) 30%,
-    rgba(255,255,255,0) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.98) 30%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
-/* ============================================================
-   “SMALL LAPTOP” / NARROW DESKTOP FIX (your screenshot case)
-   - keeps title readable
-   - adds a touch of top padding
-   - reduces awkward negative space
-   ============================================================ */
-@media (max-width: 1200px) and (min-width: 1024px) {
+/* =========================
+   RESPONSIVE: “SMALL LAPTOP WINDOW”
+   Fix: title too small, scrolling line too tiny/too close at that window size
+   ========================= */
+@media (max-width: 1180px) and (min-width: 1024px) {
   .hero-section {
-    padding-top: 6vh;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-top: 54px; /* add top breathing room */
+  }
+
+  .hero-content {
+    margin-bottom: 14px; /* less empty space */
   }
 
   .main-title {
-    font-size: clamp(56px, 6.8vw, 88px);
+    font-size: clamp(66px, 7.2vw, 88px);
   }
 
+  /* “just this size” tuning: make scrolling line readable + add a bit of space */
   .scrolling-text-container {
-    margin-bottom: 12px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+  }
+
+  .scrolling-text-wrapper {
+    height: 46px;
   }
 
   .scrolling-text {
     font-size: 20px;
   }
+}
 
-  .navigation-content {
-    padding-left: 32px;
-    padding-right: 32px;
-    font-size: 20px;
+/* Slightly narrower still (often the “ruins the page” point) */
+@media (max-width: 1060px) and (min-width: 1024px) {
+  .hero-content {
+    gap: 22px;
   }
 
-  /* slightly reduce overlap so it doesn’t feel like a “gap” */
-  .work-section {
-    margin-top: -22vh;
+  .main-title {
+    font-size: clamp(60px, 7vw, 84px);
   }
 
-  /* clover/logo a bit smaller so it fits better on narrow screens */
-  .clover-logo { width: 80px; height: 80px; }
-  .clover-leaves { width: 66px; }
-  .clover-stalk { width: 20px; }
-  .clover-placeholder { width: 80px; height: 80px; }
-
-  .project-content {
-    min-width: 300px;
-    padding-top: clamp(18px, 4.2vw, 70px);
-    padding-bottom: clamp(18px, 4.2vw, 70px);
+  .scrolling-text {
+    font-size: 18px;
   }
 }
 
 /* =========================
-   MOBILE RESPONSIVE
+   Mobile Responsive Styles
    ========================= */
 @media (max-width: 1023px) {
   .navigation-content {
     font-size: 18px;
-    padding-left: 18px;
-    padding-right: 18px;
-    bottom: 28px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   .clover {
-    transition: transform 0.50s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .work-button {
     font-size: 18px;
   }
 
-  .clover-logo { width: 48px; height: 48px; }
-  .clover-stalk { width: 14.3px; }
-  .clover-leaves { width: 40px; }
-  .clover-placeholder { width: 48px; height: 48px; }
+  .clover-logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .clover-stalk {
+    width: 14.3px;
+  }
+
+  .clover-leaves {
+    width: 40px;
+  }
+
+  .clover-placeholder {
+    width: 48px;
+    height: 48px;
+  }
 
   .main-title {
-    font-size: clamp(34px, 8.6vw, 64px);
-    transition-duration: 0.50s;
+    font-size: clamp(34px, 8.6vw, 88px);
+    transition-duration: 0.5s;
     will-change: transform, opacity;
   }
 
   .hero-content {
-    margin-bottom: 10px;
-    gap: 16px;
+    margin-bottom: 12px;
   }
 
   .scrolling-text-container {
-    margin-top: -12px;
-    margin-bottom: 8px;
-    transition-duration: 0.50s;
+    margin-top: 2px;
+    margin-bottom: 10px;
+    transition-duration: 0.5s;
     will-change: transform, opacity;
   }
 
-  .scrolling-text-wrapper { height: 30px; }
-  .scrolling-text { font-size: 14px; }
+  .scrolling-text-wrapper {
+    height: 32px;
+  }
 
-  /* IMPORTANT: fixes the “crazy whitespace between landing and projects” */
+  .scrolling-text {
+    font-size: 14px;
+  }
+
+  /* Fix the “too much whitespace between landing and projects”:
+     pull work section up a bit, and reduce side padding */
   .work-section {
-    /* restores overlap but keeps it controlled */
-    margin-top: -12vh;
-    padding-top: 18px;
-
-    /* fixes “too much left/right padding” */
+    margin-top: -18vh; /* overlap again, but not crazy */
+    padding-top: 22px;
     padding-left: 16px;
     padding-right: 16px;
-
     padding-bottom: 110px;
   }
 
-  /* ===== mobile projects: NOT square + normal spacing ===== */
+  /* ===== HOMEPAGE PROJECTS ON MOBILE (the main fixes) ===== */
+
   .project-card {
     flex-direction: column;
     align-items: stretch;
-
-    /* fixes “padding between image and tags is crazy” */
-    gap: 10px;
-
-    /* controls vertical whitespace */
-    padding-top: 14px;
+    gap: 10px; /* reduce the “crazy” gap between image and tags */
+    padding-top: 16px;
     padding-bottom: 14px;
   }
 
@@ -680,35 +735,43 @@ body {
     border-radius: 12px;
     overflow: hidden;
 
-    /* FORCE WIDE THUMBNAIL (prevents squares) */
+    /* keep wide thumbnails (NOT square) */
     aspect-ratio: 16 / 10;
     height: auto;
-
     flex-shrink: 0;
   }
 
-  /* fallback for older browsers */
+  /* Fallback if aspect-ratio unsupported */
   @supports not (aspect-ratio: 1 / 1) {
     .project-image {
-      height: calc((100vw - 32px) * 0.625); /* (100vw - L/R padding) * (10/16) */
+      height: calc((100vw - 32px) * 0.625); /* (16/10)=1.6 => 1/1.6=0.625 */
     }
   }
 
-  /* this is the big one: kill desktop padding + add a small, intentional top pad */
+  /* force media to fill the thumbnail box on mobile too */
+  .project-media {
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* THIS is the padding culprit on mobile if desktop clamp leaks in */
   .project-content {
     min-width: 0;
-    padding: 8px 2px 6px !important; /* small breathing room, not huge */
+    padding: 8px 2px 10px !important; /* small padding above tags (like you asked) */
     margin: 0 !important;
   }
 
-  /* “can do with some padding above the project tags” */
   .project-header {
-    margin-bottom: 10px;
+    margin-bottom: 12px; /* reduce gap under tags/year */
     gap: 10px;
-    padding-top: 4px; /* tiny push above tags */
   }
 
-  .project-tags { max-width: none; }
+  .project-tags {
+    max-width: none;
+  }
+
   .project-year {
     font-size: 26px;
     padding-right: 0;
@@ -716,17 +779,18 @@ body {
   }
 
   .project-title {
-    font-size: 26px;
+    font-size: 28px;
     margin-bottom: 8px;
   }
 
-  /* fixes “padding after description before divider is too much” */
   .project-description {
     margin-bottom: 0;
   }
 
+  /* reduce the “too much padding after description (before divider)” */
   .project-divider {
-    margin: 10px 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .final-line {
@@ -734,13 +798,13 @@ body {
     margin-bottom: 26px;
   }
 
-  /* ===== mobile-only overlay behaviour for real projects ===== */
+  /* ===== mobile-only "READ MORE ON DESKTOP SITE" overlay ===== */
   .project-link:not(.is-disabled) .project-image {
     position: relative;
   }
 
   .project-link:not(.is-disabled) .project-image::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: rgba(42, 0, 255, 0);
@@ -750,7 +814,7 @@ body {
   }
 
   .project-link:not(.is-disabled) .project-image::before {
-    content: 'READ MORE ON DESKTOP SITE';
+    content: "READ MORE ON DESKTOP SITE";
     position: absolute;
     inset: 0;
     display: grid;
@@ -764,12 +828,13 @@ body {
     transition: opacity 0.2s ease;
     pointer-events: none;
     z-index: 3;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   }
 
   .project-link.is-mobile-locked .project-image::after {
     background: rgba(42, 0, 255, 0.45);
   }
+
   .project-link.is-mobile-locked .project-image::before {
     opacity: 1;
   }
@@ -779,18 +844,91 @@ body {
     top: 22px;
     gap: 14px;
   }
-  .project-arrow { font-size: 20px; }
+
+  .project-arrow {
+    font-size: 20px;
+  }
 }
 
-/* =========================
-   Extra: very small widths
-   ========================= */
+/* Slight hero tightening for smaller phones */
 @media (max-width: 804px) {
-  .hero-content { gap: 14px; }
+  .hero-content {
+    gap: 16px;
+  }
 }
 
 /* =========================
-   PROJECT PAGE OVERRIDES
+   COMING SOON (disabled projects)
+   ========================= */
+.project-link.is-disabled .project-image {
+  position: relative;
+}
+
+.project-link.is-disabled .project-media {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+/* blue wash overlay */
+.project-link.is-disabled .project-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(42, 0, 255, 0);
+  transition: background 0.25s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* text overlay */
+.project-link.is-disabled .project-image::before {
+  content: "COMING SOON";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 28px;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 3;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* hover state */
+.project-link.is-disabled:hover .project-image::after {
+  background: rgba(42, 0, 255, 0.35);
+}
+
+.project-link.is-disabled:hover .project-image::before {
+  opacity: 1;
+}
+
+.project-link.is-disabled:hover .project-media {
+  opacity: 0.85;
+}
+
+/* =========================
+   Slight desktop tightening for medium screens
+   ========================= */
+@media (max-width: 1280px) {
+  .project-image {
+    flex: 0 0 min(54vw, 760px);
+    width: min(54vw, 760px);
+  }
+
+  .project-content {
+    min-width: 320px;
+    padding-top: 90px;
+    padding-bottom: 120px;
+  }
+}
+
+/* =========================
+   PROJECT PAGE OVERRIDES (shared UI)
    ========================= */
 body.project-page {
   background: #000;
@@ -802,7 +940,7 @@ body.project-page .container {
   width: 100%;
   max-width: 100%;
   background: #000;
-  padding-right: 0; /* remove the 1px scrollbar padding */
+  padding-right: 0;
   overflow-x: hidden;
 }
 
@@ -818,16 +956,23 @@ body.project-page .image-wrapper-extra {
 body.project-page .clover {
   left: 0 !important;
   top: 0 !important;
+  /* DON'T override transform */
 }
 
 /* Arrows: sit either side of clover and NO underline */
-body.project-page .project-arrows { top: 36px; }
-body.project-page .project-arrow,
-body.project-page .project-arrow:hover { text-decoration: none; }
+body.project-page .project-arrows {
+  top: 36px;
+}
 
-/* =========================
-   PROJECT PAGES (shared UI)
-   ========================= */
+body.project-page .project-arrow {
+  text-decoration: none;
+}
+
+body.project-page .project-arrow:hover {
+  text-decoration: none;
+}
+
+/* PROJECT PAGES (shared UI) */
 body.project-page #container.container {
   background: #000;
   width: 100%;
@@ -844,64 +989,26 @@ body.project-page .nav-link {
   font-family: "OfficeTimesRoundMono", monospace;
 }
 
-/* =========================
-   COMING SOON (disabled projects)
-   ========================= */
-.project-link.is-disabled .project-image {
-  position: relative;
+/* Arrows: no underline on project pages */
+body.project-page .project-arrow,
+body.project-page .project-arrow:hover {
+  text-decoration: none;
 }
 
-.project-link.is-disabled .project-media {
-  position: relative;
-  z-index: 1;
-}
-
-/* blue wash overlay */
-.project-link.is-disabled .project-image::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(42, 0, 255, 0);
-  transition: background 0.25s ease;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* text overlay */
-.project-link.is-disabled .project-image::before {
-  content: 'COMING SOON';
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-size: 28px;
-  letter-spacing: 0.06em;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  pointer-events: none;
-  z-index: 3;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.25);
-}
-
-.project-link.is-disabled:hover .project-image::after {
-  background: rgba(42, 0, 255, 0.35);
-}
-.project-link.is-disabled:hover .project-image::before {
-  opacity: 1;
-}
-.project-link.is-disabled:hover .project-media {
-  opacity: 0.85;
+/* Make sure clover transform is controlled by JS */
+body.project-page .clover {
+  left: 0;
+  top: 0;
 }
 
 /* =========================
    PROJECT PAGES — Mobile layout
-   (kept from your file, but cleaned & safe)
+   (keep media height:auto here so project pages don't crop unexpectedly)
    ========================= */
 @media (max-width: 1023px) {
   body.project-page .container {
     width: 100%;
-    padding: 0 16px;      /* safe margin */
+    padding: 0 16px;
     overflow-x: hidden;
   }
 
@@ -916,6 +1023,7 @@ body.project-page .nav-link {
     max-width: 100% !important;
   }
 
+  /* Prevent fixed desktop sizes from breaking mobile */
   body.project-page img,
   body.project-page video {
     width: 100% !important;
@@ -940,70 +1048,18 @@ body.project-page .nav-link {
     line-height: 1.6;
   }
 
-  body.project-page h1 { font-size: 34px; line-height: 1.1; }
-  body.project-page h2 { font-size: 24px; line-height: 1.2; }
-  body.project-page h3 { font-size: 20px; line-height: 1.2; }
-}
-
-/* ============================================================
-   AWKWARD LAPTOP WIDTH TWEAK (only this size)
-   - scrolling text was too tiny
-   - add a bit more breathing room in hero
-   ============================================================ */
-@media (min-width: 1024px) and (max-width: 1180px) {
-  .hero-section {
-    /* gives the hero a little more top padding so it doesn’t feel cramped */
-    padding-top: 8vh;
+  body.project-page h1 {
+    font-size: 34px;
+    line-height: 1.1;
   }
 
-  .scrolling-text-wrapper {
-    height: 44px; /* more vertical breathing room */
+  body.project-page h2 {
+    font-size: 24px;
+    line-height: 1.2;
   }
 
-  .scrolling-text {
-    font-size: 22px; /* was too tiny at this width */
-  }
-
-  .gradient-left,
-  .gradient-right {
-    width: 160px; /* keeps fades looking proportional with bigger text */
-  }
-}
-/* ============================================================
-   HOMEPAGE PROJECTS — DESKTOP SPACING BUMP
-   (title + description + dividers only; tags unchanged)
-   ============================================================ */
-@media (min-width: 1024px) {
-  .project-card {
-    padding-top: 38px;
-    padding-bottom: 38px;
-  }
-
-  .project-title {
-    margin-bottom: 18px;
-  }
-
-  .project-description {
-    font-size: 17px;
-    line-height: 1.7;
-    margin-bottom: 0; /* keep it tight before divider */
-  }
-
-  .project-divider {
-    margin: 22px 0;
-  }
-
-  .final-line {
-    margin-top: 26px;
-    margin-bottom: 46px;
-  }
-}
-
-/* Only for that awkward “small laptop window” size:
-   add a little breathing room around the scrolling line */
-@media (min-width: 1024px) and (max-width: 1080px) {
-  .scrolling-text-container {
-    margin-top: 10px;
-    margin-bottom: 26px;
+  body.project-page h3 {
+    font-size: 20px;
+    line-height: 1.2;
   }
 }
