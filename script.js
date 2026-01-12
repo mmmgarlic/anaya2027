@@ -57,7 +57,7 @@ const projects = [
     tags: ['Creative Coding', 'AI Chatbot Creation', 'Experimental'],
     description: 'Building a series of playful, interactive web experiences that reveal the hidden environmental cost of AI.',
     href: 'projects/thirstyrobots.html',
-    media: { type: 'video', src: 'images/homepage/thirstyrobots.mov' }
+    media: { type: 'video', src: 'images/homepage/croppedthirstyrobots.mov' }
   },
   {
     id: 7,
