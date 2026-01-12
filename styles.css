@@ -998,3 +998,12 @@ body.project-page .nav-link {
     margin-bottom: 46px;
   }
 }
+
+/* Only for that awkward “small laptop window” size:
+   add a little breathing room around the scrolling line */
+@media (min-width: 1024px) and (max-width: 1180px) {
+  .scrolling-text-container {
+    margin-top: 10px;
+    margin-bottom: 26px;
+  }
+}
