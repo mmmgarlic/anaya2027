@@ -459,9 +459,11 @@ body {
   display: flex;
   flex-direction: column;
 
-  padding-top: 120px;
-  padding-bottom: 160px;
+  /* was 120 / 160 — this is the main "excess space" culprit */
+  padding-top: clamp(24px, 6vw, 90px);
+  padding-bottom: clamp(24px, 6vw, 90px);
 }
+
 
 .project-header {
   display: flex;
@@ -513,9 +515,9 @@ body {
   height: 2px;
   background-color: var(--blue);
   opacity: 0.3;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 16px 0;
 }
+
 
 .final-line {
   width: 100%;
@@ -641,14 +643,19 @@ body {
     gap: 14px;
   }
 
-  .project-image {
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    border-radius: 12px;
-    aspect-ratio: 16 / 10;
-    height: auto;
-  }
+.project-image {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  border-radius: 12px;
+  overflow: hidden;
+
+  /* force wide thumbnail */
+  aspect-ratio: 16 / 10;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
 
   .project-content {
     padding-top: 0 !important;
