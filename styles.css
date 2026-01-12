@@ -650,7 +650,7 @@ body {
 /* =========================
    Mobile Responsive Styles
    ========================= */
-@media (max-width: 1023px) {
+@media (max-width: 767px) {
   .navigation-content {
     font-size: 18px;
     padding-left: 24px;
@@ -1005,7 +1005,7 @@ body.project-page .clover {
    PROJECT PAGES — Mobile layout
    (keep media height:auto here so project pages don't crop unexpectedly)
    ========================= */
-@media (max-width: 1023px) {
+@media (max-width: 767px) {
   body.project-page .container {
     width: 100%;
     padding: 0 16px;
@@ -1062,4 +1062,42 @@ body.project-page .clover {
     font-size: 20px;
     line-height: 1.2;
   }
+}
+
+/* Tablet / small laptop: keep desktop layout, just tighten it */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .work-section {
+    padding-left: 28px;
+    padding-right: 28px;
+    padding-top: 44px;
+    margin-top: -22vh;
+  }
+
+  .project-card {
+    flex-direction: row;      /* IMPORTANT: don’t stack like phone */
+    gap: 22px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .project-image {
+    flex: 0 0 52%;
+    width: 52%;
+    aspect-ratio: 16 / 10;
+    margin-left: 0;
+  }
+
+  .project-content {
+    min-width: 0;            /* prevents overflow + weird squeezing */
+    padding-top: 22px;
+    padding-bottom: 22px;
+    padding-right: 0;
+  }
+
+  .project-title { font-size: 32px; }
+  .project-year { font-size: 28px; }
+  .project-description { font-size: 15px; }
+
+  .scrolling-text { font-size: 18px; }
+  .scrolling-text-container { margin-top: 8px; }
 }
