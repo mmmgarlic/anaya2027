@@ -1,7 +1,5 @@
 /* shared.js */
 
-<script data-goatcounter="https://anaya.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
           
 (() => {
   // blunt config
