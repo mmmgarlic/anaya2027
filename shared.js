@@ -1,5 +1,8 @@
 /* shared.js */
 
+<script data-goatcounter="https://anaya.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+          
 (() => {
   // blunt config
   const HOME_FROM_PROJECT = '../index.html';
